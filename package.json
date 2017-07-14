@@ -1,0 +1,24 @@
+{
+  "name": "ytlisten",
+  "version": "1.0.0",
+  "description": "Web App for listening to youtube videos",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rundik/YTListen.git"
+  },
+  "author": "Ivan Alexandrov",
+  "bugs": {
+    "url": "https://github.com/Rundik/YTListen/issues"
+  },
+  "homepage": "https://github.com/Rundik/YTListen#readme",
+  "dependencies": {
+    "browser-sync": "^2.18.12",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.6.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-minify": "^1.0.0",
+    "gulp-rigger": "^0.5.8",
+    "gulp-sass": "^3.1.0",
+    "gulp-uglify": "^3.0.0"
+  }
+}

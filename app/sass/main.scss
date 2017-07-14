@@ -1,0 +1,19 @@
+@import "_variables";
+@import "_keyframes";
+@import '_playlists';
+@import '_player';
+
+html, body{
+  height: 100%;
+}
+
+body{
+  background-color: lighten($back, 80%);
+  &::-webkit-scrollbar {
+    background-color: transparentize($back, .5);
+    width: 3px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: transparentize($accent, .1);
+  }
+}

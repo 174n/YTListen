@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YTListen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto:300,400&amp;subset=cyrillic'>
+  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <div class="player" id="playerContainer">
+    <div class="volumeControl">
+      <input type="range" id="volumeControl" value="40">
+    </div>
+  
+    <div class="back"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
+    <div class="volume" id="volume"><i class="fa fa-volume-up" aria-hidden="true"></i></div>
+    
+    <div class="cover" id="cover">
+    </div>
+    <div class="header">
+      <div class="song" id="song"></div>
+      <div class="author" id="author"></div>
+    </div>
+    <div class="progress">
+        <input type="range" id="current" value="0">
+    </div>
+    <div class="controls">
+      <div class="backward" id="backward"><i class="fa fa-backward" aria-hidden="true"></i></div>
+      <div class="play" id="play"><i class="fa fa-play" aria-hidden="true"></i></div>
+      <div class="forward" id="forward"><i class="fa fa-forward" aria-hidden="true"></i></div>
+    </div>
+  </div>
+  <div class="upper">
+    <div class="header">YTListen</div>
+    <div class="add" id="add"><i class="fa fa-bars" aria-hidden="true"></i></div>
+  </div>
+  
+  <div class="template" id="template">
+    <div class="card">
+      <div class="cover"></div>
+      <div class="text">
+        <div class="song"></div>
+        <div class="author"></div>
+      </div>
+    </div>
+    <div class="playlist">
+      <div class="header">
+        <div class="title"></div>
+        <div class="subtitle"></div>
+      </div>
+      <div class="cards"></div>
+      <div class="arrow"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+    </div>
+  </div>
+  
+  <div class="container" id="container">
+    <div class="addPlaylist" id="addPlaylist">
+      <input type="text">
+      <button>Add playlist</button>
+    </div>
+  </div>
+  <script src="js/all_min.js"></script>
+</body>
+</html>

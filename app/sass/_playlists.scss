@@ -1,0 +1,147 @@
+.template{
+  display: none;
+}
+
+.upper{
+  position: fixed;
+  width: 100%;
+  height: 50px;
+  background-color: $accent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px -1px 7px 2px rgba(0,0,0,.6);
+  z-index: 10;
+  
+  .header{
+    margin-left: 15px;
+    color: $back;
+    font-size: 1.1em;
+  }
+  .add{
+    color: $back;
+    font-size: 1.3em;
+    padding: 12px 20px;
+    cursor: pointer;
+    &:hover{
+      color: lighten($back, 15%);
+    }
+  }
+}
+
+.container{
+  padding-top: 50px;
+  
+  .addPlaylist{
+    display: none;
+    padding: 15px;
+    background-color: #fff;
+    margin: 15px;
+    box-shadow: 0px 0px 5px 1px rgba(0,0,0,.2);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+    input, button{
+      width: 100%;
+      border: 0;
+      box-shadow: 0px 0px 1px 0px rgba(0,0,0,.9);
+      padding: 5px;
+      font-size: 1.1em;
+      margin: 5px;
+      &:hover{
+        background-color: lighten($accent, 5%);
+      }
+    }
+    button{
+      background-color: $accent;
+      color: $back;
+      padding: 10px 15px;
+      font-size: .8em;
+      font-weight: 300;
+    }
+  }
+  
+  .playlist{
+    width: 100%;
+    padding: 30px;
+    &:nth-child(2n-1){
+      background-color: lighten($main,35%);
+    }
+
+    .header{
+
+      .title{
+        font-size: 1.7em;
+        font-weight: 300;
+        color: $back;
+        i{
+          background-color: $back;
+          color: lighten($main,35%);
+          padding: 10px;
+          font-size: .5em;
+          position: absolute;
+          right: 30px;
+          display: none;
+        }
+      }
+      .subtitle{
+        margin-top: 3px;
+        font-size: .9em;
+        font-weight: 400;
+        color: lighten($back, 20%);
+      }
+    }
+    .arrow{
+      color: $back;
+      position: absolute;
+      right: 10px;
+      margin-top: -100px;
+    }
+    .cards{
+      display: flex;
+      overflow-x: auto;
+      padding: 15px 0;
+      &::-webkit-scrollbar { 
+        display: none;
+      }
+
+      .card{
+        width: 150px;
+        height: 150px;
+        background-color: #fff;
+        margin-right: 12px;
+        margin-left: 3px;
+        box-shadow: 0px 0px 5px 1px rgba(0,0,0,.2);
+
+        .cover{
+          width: 100%;
+          height: 110px;
+          background-size: 180%;
+          background-position: center;
+        }
+        .text{
+          padding: 5px;
+          overflow: hidden;
+          white-space: nowrap;
+
+          .song{
+            color: $back;
+            font-size: .8em;
+            font-weight: 600;
+            margin-bottom: 2px;
+            &.long:hover{
+              animation: marquee 5s infinite;
+            }
+          }
+          .author{
+            color: lighten($back, 20%);
+            font-size: .7em;
+            font-weight: 300;
+          }
+        }
+      }
+    }
+
+  }
+}

@@ -16,4 +16,5 @@ body{
   &::-webkit-scrollbar-thumb {
     background-color: transparentize($accent, .1);
   }
+  overflow-x: hidden;
 }

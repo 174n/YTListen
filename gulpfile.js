@@ -27,13 +27,14 @@ gulp.task('js', function() {
         }
       }))
       .pipe(gulp.dest('./app/js/'))
-      .pipe(browserSync.stream());;
+      .pipe(browserSync.stream());
 });
 
 gulp.task('html', function() {
     gulp.src(['app/html/**/*.html', '!app/html/**/_*.html'])
       .pipe(rigger())
-      .pipe(gulp.dest('./app/'));
+      .pipe(gulp.dest('./app/'))
+      .pipe(browserSync.stream());
 });
 
 
@@ -43,9 +44,9 @@ gulp.task('serve', ['sass', 'js', 'html'], function() {
         server: "./app"
     });
 
-    gulp.watch("app/scss/**/*.scss", ['sass']);
+    gulp.watch("app/sass/**/*.scss", ['sass']);
     gulp.watch("app/js/**/*.js", ['js']);
-    gulp.watch("app/html/**/*.html", ['html']).on('change', browserSync.reload);
+    gulp.watch("app/html/**/*.html", ['html']);
 });
 
 

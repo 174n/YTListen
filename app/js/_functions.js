@@ -15,12 +15,21 @@ function load(url, success, fail){
 
 function getPlaylistVideos(id, callback){
   load("https://crossorigin.me/https://www.youtube.com/playlist?list="+id, (data) => {
+    let re = [
+      /<meta name="title" content="(.*) - YouTube">/g,
+      /<meta name="description" content="(.*)">/g
+    ];
+    let title = data.match(re[0])[0].
+      replace(re[0],"$1");
+    let description = data.match(re[1])[0].
+      replace(re[1],"$1");
+
     let strings = data.match(/data-video-id=\"(.*?)\"/g);
     let ids = [];
     for(s in strings){
       ids.push(strings[s].split("\"")[1]);
     }
-    callback(ids);
+    callback({"title": title, "description": description, "videos": ids});
   });
 }
 
@@ -75,9 +84,11 @@ function getVideoSources(id, callback, quality=3){
 
 
 function dbGet(){
-  if(localStorage.getItem("player__database") === null) dbSet({"playlists":[],"quality":15});
+  if(localStorage.getItem("player__database") === null)
+    dbSet({"playlists":[],"quality":15});
   return JSON.parse(localStorage.getItem("player__database"));
 }
+
 function dbSet(obj){
   localStorage.setItem("player__database", JSON.stringify(obj));
 }
@@ -88,6 +99,9 @@ function dbAssing(obj){
   localStorage.setItem("player__database", JSON.stringify(edited) );
 }
 
+function dbClear(){
+  localStorage.removeItem("player__database");
+}
 
 
 // getVideoSources("__QnYH4nPIo", (info) => {

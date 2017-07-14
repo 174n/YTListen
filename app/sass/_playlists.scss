@@ -75,7 +75,7 @@
         font-size: 1.5em;
         font-weight: 300;
         color: $back;
-        i{
+        .trash{
           background-color: $back;
           color: lighten($main,35%);
           padding: 10px;
@@ -83,6 +83,8 @@
           position: absolute;
           right: 30px;
           display: none;
+          border: 0;
+          cursor: pointer;
         }
       }
       .subtitle{

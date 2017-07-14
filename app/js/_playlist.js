@@ -14,13 +14,18 @@ let playlist__playlistUrl = document.getElementById('playlistUrl');
 function addPlaylist(title, subtitle, videos){
   if(videos.length > 0){
     playlist__playlists.innerHTML += playlist__template.children[1].outerHTML;
-    let playlist = playlist__playlists.children[playlist__playlists.children.length-1];
-    playlist.children[0].children[0].innerHTML = title+'<i class="fa fa-trash trash" aria-hidden="true" class="trash"></i>';
+    let playlistN = playlist__playlists.children.length-1;
+    let playlist = playlist__playlists.children[playlistN];
+    playlist.children[0].children[0].innerHTML = title+
+    '<button class="trash" data-target="'+playlistN
+    +'" onclick="removePlaylist(this)"><i class="fa fa-trash" aria-hidden="true" class="trash"></i></button>';
     playlist.children[0].children[1].innerHTML = subtitle;
+
+
     
     videos.forEach((video) => {
       getVideoInfo(video, (info) => {
-        addCardPlaylist(playlist.children[1], info.title, info.author_name, info.thumbnail_url);
+        addCardPlaylist(playlist__playlists.children[playlistN].children[1], info.title, info.author_name, info.thumbnail_url);
       });
     })
     
@@ -33,6 +38,14 @@ function addPlaylist(title, subtitle, videos){
     });
   }
 }
+
+function removePlaylist(elem){
+  let db = dbGet();
+  db.playlists.splice(parseInt(elem.getAttribute("data-target")), 1);
+  dbSet(db);
+  initPlaylists();
+}
+
 
 function addCardPlaylist(playlist, song, author, cover){
   playlist.innerHTML += playlist__template.children[0].outerHTML;
@@ -73,7 +86,6 @@ playlist__addPlaylistBtn.onclick = () => {
       })
       dbSet(db);
     }
-    console.log(dbGet());
     initPlaylists();
   });
 }
@@ -81,10 +93,12 @@ playlist__addPlaylistBtn.onclick = () => {
 function initPlaylists(){
   playlist__playlists.innerHTML = "";
   dbGet().playlists.forEach((playlist) => {
-    console.log(playlist.videos);
     if(playlist.videos.length > 0)
       addPlaylist(playlist.title, playlist.description, playlist.videos);
-  })
+  });
+
+  playlist__add.click();
+  playlist__add.click();
 }
 
 initPlaylists();

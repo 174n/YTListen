@@ -9,6 +9,7 @@ let player__song = document.getElementById("song");
 let player__author = document.getElementById("author");
 let player__cover = document.getElementById("cover");
 
+let player__close = document.getElementById("playerClose");
 let player__backward = document.getElementById("backward");
 let player__play = document.getElementById("play");
 let player__forward = document.getElementById("forward");
@@ -23,6 +24,10 @@ let player__audio;
 
 //init
 function playerInit(url, info){
+  if(player__audio !== undefined) player__audio.pause();
+  player__play.children[0].setAttribute("class", "fa fa-play");
+  player__current.value = 0;
+
   player__song.innerHTML = info.title;
   if(info.title.length > 30) player__song.className = "song long";
   
@@ -31,11 +36,21 @@ function playerInit(url, info){
   
   player__cover.style.backgroundImage = "url('"+info.thumbnail_url+"')";
 
-  player__audio = new Audio(url[0]);
+  player__audio = new Audio(url);
   player__audio.volume = 0.4;
   
-  player__container.style.display = "flex";
+  document.getElementById("playlist").style.display = "none";
+  document.getElementById("player").style.display = "block";
+  window.onscroll = function () { window.scrollTo(0, 0); };
 }
+
+//hide
+function playerHide(){
+  document.getElementById("playlist").style.display = "block";
+  document.getElementById("player").style.display = "none";
+  window.onscroll = function () {};
+}
+
 
 //play/pause
 player__play.onclick = () => {
@@ -77,7 +92,11 @@ player__volumeControl.onchange = () => {
 }
 
 
+//player close
 
+player__close.onclick = () => {
+  playerHide();
+}
 
 // playerInit(player__playlist, {
 //   "title": "SAFAKASH - Rainy Day",

@@ -1,12 +1,15 @@
 function load(url, success, fail){
   var request = new XMLHttpRequest();
   request.open('GET', url, true);
+  document.getElementById('loader').style.display = "block";
   request.onload = function() {
     if (request.status >= 200 && request.status < 400) success(request.responseText)
     else fail(request.status);
+    document.getElementById('loader').style.display = "none";
   };
   request.onerror = function() {
     fail(request.status);
+    document.getElementById('loader').style.color = "red";
   };
 
   request.send();
@@ -127,6 +130,7 @@ let player__song = document.getElementById("song");
 let player__author = document.getElementById("author");
 let player__cover = document.getElementById("cover");
 
+let player__close = document.getElementById("playerClose");
 let player__backward = document.getElementById("backward");
 let player__play = document.getElementById("play");
 let player__forward = document.getElementById("forward");
@@ -141,6 +145,10 @@ let player__audio;
 
 //init
 function playerInit(url, info){
+  if(player__audio !== undefined) player__audio.pause();
+  player__play.children[0].setAttribute("class", "fa fa-play");
+  player__current.value = 0;
+
   player__song.innerHTML = info.title;
   if(info.title.length > 30) player__song.className = "song long";
   
@@ -149,11 +157,21 @@ function playerInit(url, info){
   
   player__cover.style.backgroundImage = "url('"+info.thumbnail_url+"')";
 
-  player__audio = new Audio(url[0]);
+  player__audio = new Audio(url);
   player__audio.volume = 0.4;
   
-  player__container.style.display = "flex";
+  document.getElementById("playlist").style.display = "none";
+  document.getElementById("player").style.display = "block";
+  window.onscroll = function () { window.scrollTo(0, 0); };
 }
+
+//hide
+function playerHide(){
+  document.getElementById("playlist").style.display = "block";
+  document.getElementById("player").style.display = "none";
+  window.onscroll = function () {};
+}
+
 
 //play/pause
 player__play.onclick = () => {
@@ -195,7 +213,11 @@ player__volumeControl.onchange = () => {
 }
 
 
+//player close
 
+player__close.onclick = () => {
+  playerHide();
+}
 
 // playerInit(player__playlist, {
 //   "title": "SAFAKASH - Rainy Day",
@@ -229,7 +251,7 @@ function addPlaylist(title, subtitle, videos){
     
     videos.forEach((video) => {
       getVideoInfo(video, (info) => {
-        addCardPlaylist(playlist__playlists.children[playlistN].children[1], info.title, info.author_name, info.thumbnail_url);
+        addCardPlaylist(playlist__playlists.children[playlistN].children[1], info.title, info.author_name, info.thumbnail_url, video);
       });
     })
     
@@ -251,14 +273,28 @@ function removePlaylist(elem){
 }
 
 
-function addCardPlaylist(playlist, song, author, cover){
+function addCardPlaylist(playlist, song, author, cover, id){
   playlist.innerHTML += playlist__template.children[0].outerHTML;
   let card = playlist.children[playlist.children.length-1];
+  card.setAttribute('onclick','playFromCard("'+id+'")');
   card.children[1].children[0].innerHTML = song;
   if(song.length > 20) card.children[1].children[0].className += " long";
   card.children[1].children[1].innerHTML = author;
   card.children[0].style.backgroundImage = "url("+cover+")";
 }
+
+
+function playFromCard(id){//welcome to callback hell
+  getVideoSources(id, (url) => {
+    getVideoInfo(id, (data) => {
+
+      playerInit(url, data);
+
+    })
+  })
+
+}
+
 
 
 playlist__add.onclick = () => {
@@ -306,5 +342,3 @@ function initPlaylists(){
 }
 
 initPlaylists();
-
-// addPlaylist("Lorem ipsum", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, iure.");

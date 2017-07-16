@@ -25,7 +25,7 @@ function addPlaylist(title, subtitle, videos){
     
     videos.forEach((video) => {
       getVideoInfo(video, (info) => {
-        addCardPlaylist(playlist__playlists.children[playlistN].children[1], info.title, info.author_name, info.thumbnail_url);
+        addCardPlaylist(playlist__playlists.children[playlistN].children[1], info.title, info.author_name, info.thumbnail_url, video);
       });
     })
     
@@ -47,14 +47,28 @@ function removePlaylist(elem){
 }
 
 
-function addCardPlaylist(playlist, song, author, cover){
+function addCardPlaylist(playlist, song, author, cover, id){
   playlist.innerHTML += playlist__template.children[0].outerHTML;
   let card = playlist.children[playlist.children.length-1];
+  card.setAttribute('onclick','playFromCard("'+id+'")');
   card.children[1].children[0].innerHTML = song;
   if(song.length > 20) card.children[1].children[0].className += " long";
   card.children[1].children[1].innerHTML = author;
   card.children[0].style.backgroundImage = "url("+cover+")";
 }
+
+
+function playFromCard(id){//welcome to callback hell
+  getVideoSources(id, (url) => {
+    getVideoInfo(id, (data) => {
+
+      playerInit(url, data);
+
+    })
+  })
+
+}
+
 
 
 playlist__add.onclick = () => {
@@ -102,5 +116,3 @@ function initPlaylists(){
 }
 
 initPlaylists();
-
-// addPlaylist("Lorem ipsum", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, iure.");

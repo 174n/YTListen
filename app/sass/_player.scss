@@ -1,6 +1,11 @@
-.player{
-  animation: slide 1s ease-in-out;
+#player{
+  height: 100vh;
   display: none;
+}
+.player{
+  z-index: 100;
+  animation: slide 1s ease-in-out;
+  display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
@@ -10,7 +15,7 @@
   box-shadow: inset 0px 20px 40px 0px rgba(0,0,0,.5);
   
   .back{
-    animation: fadein 2s ease-in-out;
+    animation: fadein 3s ease-in-out;
     position: absolute;
     top: 0px;
     left: 0px;
@@ -29,7 +34,7 @@
 
 
   .volume{
-    animation: fadein 2s ease-in-out;
+    animation: fadein 3s ease-in-out;
     position: absolute;
     top: 0px;
     right: 0px;
@@ -120,7 +125,7 @@
   }
   .header{
     width: 100%;
-    padding: 0 15px 20px 15px;
+    padding: 0 15px 20px 70px;
     white-space: nowrap;
     overflow: hidden;
     
@@ -157,7 +162,7 @@
   }
   .progress{
     width: 100%;
-    padding: 0 15px;
+    //padding: 0 15px;
     height: 3px;
     
     #current{

@@ -1,12 +1,15 @@
 function load(url, success, fail){
   var request = new XMLHttpRequest();
   request.open('GET', url, true);
+  document.getElementById('loader').style.display = "block";
   request.onload = function() {
     if (request.status >= 200 && request.status < 400) success(request.responseText)
     else fail(request.status);
+    document.getElementById('loader').style.display = "none";
   };
   request.onerror = function() {
     fail(request.status);
+    document.getElementById('loader').style.color = "red";
   };
 
   request.send();

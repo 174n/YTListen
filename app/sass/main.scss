@@ -18,3 +18,16 @@ body{
   }
   overflow-x: hidden;
 }
+#loader{
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  text-align: center;
+  background-color: rgba(0,0,0,.3);
+  color: lighten($main, 50%);
+  padding: 15px;
+  width: 150px;
+  left: 50%;
+  margin-left: -75px;
+  bottom: 15px;
+}

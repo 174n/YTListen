@@ -10,58 +10,63 @@
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  <div class="player" id="playerContainer">
-    <div class="volumeControl">
-      <input type="range" id="volumeControl" value="40">
-    </div>
-  
-    <div class="back"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
-    <div class="volume" id="volume"><i class="fa fa-volume-up" aria-hidden="true"></i></div>
+  <div id="loader">Loading...</div>
+  <div id="player">
+    <div class="player" id="playerContainer">
+      <div class="volumeControl">
+        <input type="range" id="volumeControl" value="40">
+      </div>
     
-    <div class="cover" id="cover">
-    </div>
-    <div class="header">
-      <div class="song" id="song"></div>
-      <div class="author" id="author"></div>
-    </div>
-    <div class="progress">
-        <input type="range" id="current" value="0">
-    </div>
-    <div class="controls">
-      <div class="backward" id="backward"><i class="fa fa-backward" aria-hidden="true"></i></div>
-      <div class="play" id="play"><i class="fa fa-play" aria-hidden="true"></i></div>
-      <div class="forward" id="forward"><i class="fa fa-forward" aria-hidden="true"></i></div>
-    </div>
-  </div>
-  <div class="upper">
-    <div class="header">YTListen</div>
-    <div class="add" id="add"><i class="fa fa-bars" aria-hidden="true"></i></div>
-  </div>
-  
-  <div class="template" id="template">
-    <div class="card">
-      <div class="cover"></div>
-      <div class="text">
-        <div class="song"></div>
-        <div class="author"></div>
+      <div class="back" id="playerClose"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
+      <div class="volume" id="volume"><i class="fa fa-volume-up" aria-hidden="true"></i></div>
+      
+      <div class="cover" id="cover">
       </div>
-    </div>
-    <div class="playlist">
       <div class="header">
-        <div class="title"></div>
-        <div class="subtitle"></div>
+        <div class="song" id="song"></div>
+        <div class="author" id="author"></div>
       </div>
-      <div class="cards"></div>
-      <div class="arrow"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+      <div class="progress">
+          <input type="range" id="current" value="0">
+      </div>
+      <div class="controls">
+        <div class="backward" id="backward"><i class="fa fa-backward" aria-hidden="true"></i></div>
+        <div class="play" id="play"><i class="fa fa-play" aria-hidden="true"></i></div>
+        <div class="forward" id="forward"><i class="fa fa-forward" aria-hidden="true"></i></div>
+      </div>
     </div>
   </div>
-  
-  <div class="container" id="container">
-    <div class="addPlaylist" id="addPlaylist">
-      <input type="text" id="playlistUrl" value="PL6X1_iPMxYQtCvvA1m36i5FvE1KoJS98A">
-      <button id="addPlaylistBtn">Add playlist</button>
+  <div id="playlist">
+    <div class="upper">
+      <div class="header">YTListen</div>
+      <div class="add" id="add"><i class="fa fa-bars" aria-hidden="true"></i></div>
     </div>
-    <div id="playlists"></div>
+    
+    <div class="template" id="template">
+      <div class="card">
+        <div class="cover"></div>
+        <div class="text">
+          <div class="song"></div>
+          <div class="author"></div>
+        </div>
+      </div>
+      <div class="playlist">
+        <div class="header">
+          <div class="title"></div>
+          <div class="subtitle"></div>
+        </div>
+        <div class="cards"></div>
+        <div class="arrow"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+      </div>
+    </div>
+    
+    <div class="container" id="container">
+      <div class="addPlaylist" id="addPlaylist">
+        <input type="text" id="playlistUrl" value="PL6X1_iPMxYQtCvvA1m36i5FvE1KoJS98A">
+        <button id="addPlaylistBtn">Add playlist</button>
+      </div>
+      <div id="playlists"></div>
+    </div>
   </div>
   <script src="js/all_min.js"></script>
 </body>

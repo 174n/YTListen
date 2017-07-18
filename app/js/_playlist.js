@@ -10,6 +10,7 @@ let playlist__playlistUrl = document.getElementById('playlistUrl');
 
 
 
+//add new playlist in DOM
 
 function addPlaylist(title, subtitle, videos){
   if(videos.length > 0){
@@ -39,6 +40,10 @@ function addPlaylist(title, subtitle, videos){
   }
 }
 
+
+
+//remove playlist from DB
+
 function removePlaylist(elem){
   let db = dbGet();
   db.playlists.splice(parseInt(elem.getAttribute("data-target")), 1);
@@ -46,6 +51,10 @@ function removePlaylist(elem){
   initPlaylists();
 }
 
+
+
+
+//add song in DOM
 
 function addCardPlaylist(playlist, song, author, cover, id){
   playlist.innerHTML += playlist__template.children[0].outerHTML;
@@ -68,6 +77,30 @@ function playFromCard(id){//welcome to callback hell
   })
 
 }
+
+
+
+
+// add playlists in DOM
+
+function initPlaylists(){
+  playlist__playlists.innerHTML = "";
+  dbGet().playlists.forEach((playlist) => {
+    if(playlist.videos.length > 0)
+      addPlaylist(playlist.title, playlist.description, playlist.videos);
+  });
+
+  playlist__add.click();
+  playlist__add.click();
+}
+
+initPlaylists();
+
+
+
+
+/* EVENTS
+====================================*/
 
 
 
@@ -103,16 +136,3 @@ playlist__addPlaylistBtn.onclick = () => {
     initPlaylists();
   });
 }
-
-function initPlaylists(){
-  playlist__playlists.innerHTML = "";
-  dbGet().playlists.forEach((playlist) => {
-    if(playlist.videos.length > 0)
-      addPlaylist(playlist.title, playlist.description, playlist.videos);
-  });
-
-  playlist__add.click();
-  playlist__add.click();
-}
-
-initPlaylists();

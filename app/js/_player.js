@@ -52,6 +52,12 @@ function playerHide(){
 }
 
 
+
+
+/* EVENTS
+====================================*/
+
+
 //play/pause
 player__play.onclick = () => {
   if(player__audio.paused){

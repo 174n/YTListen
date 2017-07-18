@@ -1,3 +1,5 @@
+// send get request and catch the response
+
 function load(url, success, fail){
   var request = new XMLHttpRequest();
   request.open('GET', url, true);
@@ -15,6 +17,9 @@ function load(url, success, fail){
   request.send();
 }
 
+
+
+// parse youtube playlist page to get info about playlist
 
 function getPlaylistVideos(id, callback){
   load("https://crossorigin.me/https://www.youtube.com/playlist?list="+id, (data) => {
@@ -44,6 +49,7 @@ function getVideoInfo(id, callback) {
 
 
 
+// functionst for parsing youtube video
 
 function queryStringMap(data) {
 	var result = {};
@@ -86,6 +92,9 @@ function getVideoSources(id, callback, quality=3){
 
 
 
+
+// use local storage as DB
+
 function dbGet(){
   if(localStorage.getItem("player__database") === null)
     dbSet({"playlists":[],"quality":15});
@@ -105,6 +114,11 @@ function dbAssing(obj){
 function dbClear(){
   localStorage.removeItem("player__database");
 }
+
+
+
+
+
 
 
 // getVideoSources("__QnYH4nPIo", (info) => {

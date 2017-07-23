@@ -1,5 +1,5 @@
 <template>
-  <router-link class="card" :to='"play/"+id'>
+  <router-link class="card" :to='"play/"+id+"/"+playlistid'>
     <div @mouseover="mouse(true)" @mouseout="mouse(false)">
       <div class="cover" :style="{ 'background-image': 'url(' + card.thumbnail_url + ')' }"></div>
       <div class="text">
@@ -14,7 +14,8 @@
 
 export default {
   props:{
-    id: String
+    id: String,
+    playlistid: Number
   },
   data () {
     return {

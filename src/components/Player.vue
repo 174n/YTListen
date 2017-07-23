@@ -8,7 +8,7 @@
     </transition>
 
     <div class="back"><router-link to="/"><i class="fa fa-chevron-left" aria-hidden="true"></i></router-link></div>
-    <div class="volume" id="volume" @click="volumeControlToggle"><i class="fa fa-volume-up" aria-hidden="true"></i></div>
+    <div class="volume" @click="volumeControlToggle"><i class="fa fa-volume-up" aria-hidden="true"></i></div>
     
     <div class="cover" :style="{ 'background-image': 'url(' + info.thumbnail_url + ')' }">
     </div>
@@ -17,7 +17,7 @@
       <div class="author">{{ info.author_name }}</div>
     </div>
     <div class="progress">
-        <input type="range" id="current" value="0">
+        <input type="range" class="currentTime" @change="changeTime" v-model.number="time">
     </div>
     <div class="controls">
       <div class="backward"><i class="fa fa-backward" aria-hidden="true"></i></div>
@@ -44,7 +44,8 @@ export default {
       audioUrl: false,
       player: undefined,
       paused: false,
-      volume: 50
+      volume: 50,
+      time: 0
     }
   },
 
@@ -71,6 +72,16 @@ export default {
       }
     },
 
+    changeTime: function(){
+      if(this.player !== undefined) {
+        this.player.currentTime = this.time/100*this.player.duration;
+      }
+    },
+
+    audioEnded: function(){
+      this.$router.push('/');
+    },
+
     queryStringMap: function(data) {
       var result = {};
       data.split('&').forEach(function(entry) {
@@ -94,6 +105,9 @@ export default {
 
 
   created(){
+    console.log(this.$route.params.playlist);
+
+    
     let self = this;
 
     this.$http.get('https://noembed.com/embed?url=https://www.youtube.com/watch?v='+this.$route.params.id).then(response => {
@@ -111,6 +125,15 @@ export default {
         self.player = new Audio(self.audioUrl);
         this.player.volume = 0.5;
         self.paused = self.player.paused;
+
+        self.player.ontimeupdate = () => {
+          self.time = self.player.currentTime/self.player.duration*100;
+        }
+
+        self.player.onended = () => {
+          self.audioEnded();
+        }
+
         console.log(self.audioUrl);
      
       });
@@ -291,7 +314,7 @@ export default {
     //padding: 0 15px;
     height: 3px;
     
-    #current{
+    .currentTime{
       width: 100%;
       height: 3px;
       -webkit-appearance: none;

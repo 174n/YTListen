@@ -5,7 +5,7 @@
       <div class="subtitle">{{ subtitle }}</div>
     </div>
     <div class="cards" ref="cards">
-      <playlist-card v-for="card in cards" :id="card" :key="card"></playlist-card>
+      <playlist-card v-for="card in cards" :id="card" :playlistid="playlistid" :key="card"></playlist-card>
     </div>
     <div class="arrow" :v-if="rightArrow"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
   </div>
@@ -27,6 +27,9 @@ export default {
     },
     cards:{
       type: Array
+    },
+    playlistid:{
+      type: Number
     }
   },
   data () {

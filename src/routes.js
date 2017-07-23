@@ -5,5 +5,5 @@ import Settings from './components/Settings.vue';
 export default [
   { path: '/', component: Playlist },
   { path: '/settings', component: Settings },
-  { path: '/play/:id', component: Player }
+  { path: '/play/:id/:playlist?', component: Player }
 ]

@@ -50,7 +50,7 @@ export default {
       e.preventDefault();
     });
   }//,
-  // destroyed() {
+  // beforeDestroy() {
   //   this.$refs.cards.removeEventListener('wheel');
   // }
 }

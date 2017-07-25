@@ -8,24 +8,27 @@ export default {
     test: function() {
       console.log("success");
     },
+    dbInit: function() {
+      if(localStorage.getItem(this.dbVar) === null)
+        this.dbSet({"playlists":[],"quality":15});
+    },
     dbGet: function() {
-      if(localStorage.getItem(dbVar) === null)
-        dbSet({"playlists":[],"quality":15});
-      return JSON.parse(localStorage.getItem(dbVar));
+      this.dbInit();
+      return JSON.parse(localStorage.getItem(this.dbVar));
     },
 
     dbSet: function(obj) {
-      localStorage.setItem(dbVar, JSON.stringify(obj));
+      localStorage.setItem(this.dbVar, JSON.stringify(obj));
     },
 
     dbAssign: function(obj) {
       let data = this.dbGet();
       let edited = Object.assign(data, obj);
-      localStorage.setItem(dbVar, JSON.stringify(edited) );
+      this.dbSet(edited);
     },
 
     dbClear: function() {
-      localStorage.removeItem(dbVar);
+      localStorage.removeItem(this.dbVar);
     }
   }
 };

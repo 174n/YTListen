@@ -68,7 +68,7 @@
 			"file": "src/components/Playlist.vue",
 			"settings":
 			{
-				"buffer_size": 1293,
+				"buffer_size": 940,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -77,7 +77,7 @@
 			"file": "src/components/SinglePlaylist.vue",
 			"settings":
 			{
-				"buffer_size": 2176,
+				"buffer_size": 2180,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -110,10 +110,13 @@
 			}
 		},
 		{
+			"contents": "<template>\n  <div class=\"player\" id=\"playerContainer\">\n\n    <transition name=\"fade\">\n      <div class=\"volumeControl\" v-if=\"volumeControl\" @click=\"volumeControlToggle\">\n        <input type=\"range\" value=\"50\" class=\"volumeRange\" @change=\"changeVolume\" v-model.number=\"volume\">\n      </div>\n    </transition>\n\n    <div class=\"back\"><router-link to=\"/\"><i class=\"fa fa-chevron-left\" aria-hidden=\"true\"></i></router-link></div>\n    <div class=\"volume\" @click=\"volumeControlToggle\"><i class=\"fa fa-volume-up\" aria-hidden=\"true\"></i></div>\n    \n    <div class=\"cover\" :style=\"{ 'background-image': 'url(' + info.thumbnail_url + ')' }\">\n    </div>\n    <div class=\"header\">\n      <div class=\"song\">{{ info.title }}</div>\n      <div class=\"author\">{{ info.author_name }}</div>\n    </div>\n    <div class=\"progress\">\n        <input type=\"range\" class=\"currentTime\" @change=\"changeTime\" v-model.number=\"time\">\n    </div>\n    <div class=\"controls\">\n      <div class=\"backward\"><i class=\"fa fa-backward\" aria-hidden=\"true\"></i></div>\n      <div class=\"play\" @click=\"playToggle\">\n        <i class=\"fa\" :class=\"{\n          'fa-play': audioUrl && player !== undefined && paused,\n          'fa-pause': audioUrl && player !== undefined && !paused,\n          'fa-refresh': !audioUrl\n        }\" aria-hidden=\"true\"></i>\n      </div>\n      <div class=\"forward\"><i class=\"fa fa-forward\" aria-hidden=\"true\"></i></div>\n    </div>\n  </div>\n</template>\n\n<script>\nimport storage from '../mixins/storage';\n\nexport default {\n\n  data () {\n    return {\n      info: {},\n      volumeControl: false,\n      audioUrl: false,\n      player: undefined,\n      paused: false,\n      volume: 50,\n      time: 0\n    }\n  },\n\n\n\n  methods:{\n\n    volumeControlToggle: function(e){\n      if (e.toElement.className !== \"volumeRange\") this.volumeControl=!this.volumeControl;\n    },\n\n\n    playToggle: function(){\n      if(this.player !== undefined) {\n        if(this.player.paused) this.player.play()\n          else this.player.pause();\n        this.paused = this.player.paused;\n      }\n    },\n\n    changeVolume: function(){\n      if(this.player !== undefined) {\n        this.player.volume = this.volume/100;\n      }\n    },\n\n    changeTime: function(){\n      if(this.player !== undefined) {\n        this.player.currentTime = this.time/100*this.player.duration;\n      }\n    },\n\n    audioEnded: function(){\n      this.$router.push('/');\n    },\n\n    queryStringMap: function(data) {\n      var result = {};\n      data.split('&').forEach(function(entry) {\n        result[\n            decodeURIComponent(entry.substring(0, entry.indexOf('=')))] =\n            decodeURIComponent(entry.substring(entry.indexOf('=') + 1));\n      });\n      return result;\n    },\n    listOfQueryStringMaps: function(data) {\n      var self = this;\n      var result = [];\n      data.split(',').forEach(function(entry) {\n        result.push(self.queryStringMap(entry));\n      });\n      return result;\n    }\n\n  },\n  mixins: [storage],\n\n\n\n  created(){\n    console.log( this.dbGet()/*[this.$route.params.playlist].indexOf(this.$route.params.id)*/ );\n\n    \n    let self = this;\n\n    this.$http.get('https://noembed.com/embed?url=https://www.youtube.com/watch?v='+this.$route.params.id).then(response => {\n\n      this.info = response.body;\n\n    });\n\n    this.$http.get('https://crossorigin.me/http://www.youtube.com/get_video_info?video_id='+this.$route.params.id+'&el=vevo&el=embedded&asv=3&sts=15902').then(response => {\n        let data = this.queryStringMap(response.body);\n        if (typeof data['adaptive_fmts'] == 'string') {\n          data['adaptive_fmts'] = this.listOfQueryStringMaps(data['adaptive_fmts']);\n        }\n        self.audioUrl = data.adaptive_fmts.reverse()[3].url;\n        self.player = new Audio(self.audioUrl);\n        this.player.volume = 0.5;\n        self.paused = self.player.paused;\n\n        self.player.ontimeupdate = () => {\n          self.time = self.player.currentTime/self.player.duration*100;\n        }\n\n        self.player.onended = () => {\n          self.audioEnded();\n        }\n\n        console.log(self.audioUrl);\n     \n      });\n  },\n\n  beforeDestroy(){\n    this.player.src = \"\";\n  }\n}\n</script>\n\n<style lang=\"scss\" scoped>\n@import \"./src/styles/settings.scss\";\n\n\n\n.player{\n  position: absolute;\n  z-index: 100;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n  background-color: $back;\n  width: 100%;\n  height: 100vh;\n  box-shadow: inset 0px 20px 40px 0px rgba(0,0,0,.5);\n  \n  .back{\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    font-size: 1.5em;\n    color: darken($main, 20%);\n    text-decoration: none;\n    cursor: pointer;\n    a{\n      color: inherit;\n    }\n    i{\n      height: 100%;\n      width: 100%;\n      padding: 15px;\n    }\n    i:hover{\n      color: $main;\n    }\n  }\n\n\n  .volume{\n    position: absolute;\n    top: 0px;\n    right: 0px;\n    font-size: 1.5em;\n    color: darken($main, 20%);;\n    cursor: pointer;\n    z-index: 10;\n    i{\n      height: 100%;\n      width: 100%;\n      padding: 15px;\n    }\n    i:hover{\n      color: $main;\n    }\n  }\n\n  .volumeControl{\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    z-index: 10;\n    background-color: rgba(0,0,0,.8);\n      .volumeRange{\n        transform: rotate(-90deg);\n        position: absolute;\n        right: -7px;\n        top: 85px;\n        width: 70px;\n\n        height: 3px;\n        -webkit-appearance: none;\n        background: transparent;\n        border-radius: 0;\n\n        &:focus {\n          outline: none;\n        }\n\n        &::-webkit-slider-thumb {\n          -webkit-appearance: none;\n          width: 15px;\n          height: 15px;\n          background-color: $accent;\n          border-radius:50%;\n          margin-top: -6px;\n        }\n\n        &::-moz-range-thumb {\n          width: 15px;\n          height: 15px;\n          background-color: $accent;\n          border-radius:50%;\n          margin-top: -6px;\n        }\n\n        &::-webkit-slider-runnable-track {\n          width: 100%;\n          height: 3px;\n          cursor: pointer;\n          background-color: $main;\n        }\n        &::-moz-range-track {\n          width: 100%;\n          height: 3px;\n          cursor: pointer;\n          background-color: $main;\n        }\n        &:hover::-webkit-slider-runnable-track {\n          background: lighten($main,20%);\n        }\n        &:hover::-moz-range-track {\n          background: lighten($main,20%);\n        }\n\n      }\n  }\n  \n  \n  .cover{\n    height: 50vh;\n    width: 50vh;\n    background-size: 180%;\n    background-position: center;\n    border-radius: 50%;\n    box-shadow: 1px 1px 20px 0;\n  }\n  .header{\n    width: 100%;\n    padding: 0 15px 20px 70px;\n    white-space: nowrap;\n    overflow: hidden;\n    \n    & div.long:hover{\n      animation: marquee 7s infinite;\n    }\n    \n    .song{\n      font-size: 1.1em;\n      font-weight: 600;\n      color: lighten($main, 20%);\n    }\n    .author{\n      font-weight: 300;\n      color: $main;\n      margin-top: 3px;\n    }\n  }\n  .controls{\n    width: 100%;\n    display: flex;\n    font-size: 3em;\n    justify-content: space-around;\n    color: $main;\n    cursor: pointer;\n    i{\n      height: 100%;\n      width: 100%;\n      padding: 0 10px;\n    }\n    i:hover{\n      color: lighten($main, 20%);\n    }\n  }\n  .progress{\n    width: 100%;\n    //padding: 0 15px;\n    height: 3px;\n    \n    .currentTime{\n      width: 100%;\n      height: 3px;\n      -webkit-appearance: none;\n      background: transparent;\n      border-radius: 0;\n      overflow: hidden;\n      &::-webkit-slider-thumb {\n        -webkit-appearance: none;\n      }\n      &:focus {\n        outline: none;\n      }\n      \n      &::-webkit-slider-thumb {\n        -webkit-appearance: none;\n        width: 0px;\n        box-shadow: -100vw 0 0 100vw $accent;\n      }\n      \n      &::-moz-range-thumb {\n        width: 0px;\n        box-shadow: -100vw 0 0 100vw $accent;\n      }\n      \n      &::-webkit-slider-runnable-track {\n        width: 100%;\n        height: 3px;\n        cursor: pointer;\n        background-color: $main;\n      }\n      &::-moz-range-track {\n        width: 100%;\n        height: 3px;\n        cursor: pointer;\n        background-color: $main;\n      }\n      &:hover::-webkit-slider-runnable-track {\n        background: lighten($main,20%);\n      }\n    }\n  }\n  \n  @media only screen and (min-width: 720px) {\n    position: fixed;\n    width: 360px;\n    margin-left: -180px;\n    left: 50%;\n    animation: fadein 1s ease-in-out;\n  }\n  @media only screen and (min-width: 500px) {\n    height: 100vh;\n  }\n}\n</style>",
 			"file": "src/components/Player.vue",
+			"file_size": 8520,
+			"file_write_time": 131458334570152259,
 			"settings":
 			{
-				"buffer_size": 8398,
+				"buffer_size": 8511,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -122,7 +125,7 @@
 			"file": "src/mixins/storage.js",
 			"settings":
 			{
-				"buffer_size": 680,
+				"buffer_size": 724,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -135,10 +138,14 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 354.0,
-		"last_filter": "",
+		"height": 310.0,
+		"last_filter": "ma",
 		"selected_items":
 		[
+			[
+				"ma",
+				"Material Theme: Activate theme"
+			],
 			[
 				"ssv",
 				"Set Syntax: Vue Component"
@@ -272,15 +279,11 @@
 				"Preferences: Settings"
 			],
 			[
-				"ma",
-				"Material Theme: Activate theme"
-			],
-			[
 				"ssy",
 				"Set Syntax: YAML"
 			]
 		],
-		"width": 414.0
+		"width": 329.0
 	},
 	"console":
 	{
@@ -302,10 +305,7 @@
 	},
 	"expanded_folders":
 	[
-		"/home/rundik/projects/YTListen",
-		"/home/rundik/projects/YTListen/src",
-		"/home/rundik/projects/YTListen/src/components",
-		"/home/rundik/projects/YTListen/src/mixins"
+		"/home/ivan/YTListen"
 	],
 	"file_history":
 	[
@@ -522,7 +522,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 6,
 			"sheets":
 			[
 				{
@@ -561,15 +561,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1293,
+						"buffer_size": 940,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								17,
-								17
+								785,
+								785
 							]
 						],
 						"settings":
@@ -582,7 +582,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -591,15 +591,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2176,
+						"buffer_size": 2180,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								499,
-								499
+								430,
+								430
 							]
 						],
 						"settings":
@@ -609,10 +609,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 84.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -642,7 +642,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
@@ -670,7 +670,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -699,7 +699,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -708,15 +708,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8398,
+						"buffer_size": 8511,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2901,
-								2901
+								3036,
+								3036
 							]
 						],
 						"settings":
@@ -727,10 +727,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1428.0,
+						"translation.y": 1302.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -739,15 +739,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 680,
+						"buffer_size": 724,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								602,
-								602
+								0,
+								0
 							]
 						],
 						"settings":
@@ -760,7 +760,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]

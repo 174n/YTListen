@@ -20,7 +20,7 @@
         <input type="range" class="currentTime" @change="changeTime" v-model.number="time">
     </div>
     <div class="controls">
-      <div class="backward"><i class="fa fa-backward" aria-hidden="true"></i></div>
+      <router-link class="backward" v-if="videoPrev" :to='"/play/"+videoPrev+"/"+this.$route.params.playlist'><i class="fa fa-backward" aria-hidden="true"></i></router-link>
       <div class="play" @click="playToggle">
         <i class="fa" :class="{
           'fa-play': audioUrl && player !== undefined && paused,
@@ -28,12 +28,13 @@
           'fa-refresh': !audioUrl
         }" aria-hidden="true"></i>
       </div>
-      <div class="forward"><i class="fa fa-forward" aria-hidden="true"></i></div>
+      <router-link class="forward" v-if="videoNext" :to='"/play/"+videoNext+"/"+this.$route.params.playlist'><i class="fa fa-forward" aria-hidden="true"></i></router-link>
     </div>
   </div>
 </template>
 
 <script>
+import storage from '../mixins/storage';
 
 export default {
 
@@ -45,7 +46,9 @@ export default {
       player: undefined,
       paused: false,
       volume: 50,
-      time: 0
+      time: 0,
+      videoPrev: true,
+      videoNext: true
     }
   },
 
@@ -98,25 +101,29 @@ export default {
         result.push(self.queryStringMap(entry));
       });
       return result;
-    }
-
-  },
+    },
 
 
+    loadSong: function() {
+      this.audioUrl = false;
 
-  created(){
-    console.log(this.$route.params.playlist);
+      let videos = this.dbGet().playlists[parseInt(this.$route.params.playlist)].videos;
+      let videoId = videos.indexOf(this.$route.params.id);
 
-    
-    let self = this;
 
-    this.$http.get('https://noembed.com/embed?url=https://www.youtube.com/watch?v='+this.$route.params.id).then(response => {
+      this.videoPrev = videoId !== 0 ? videos[videoId - 1] : false;
+      this.videoNext = videoId < videos.length-1 ? videos[videoId + 1] : false;
 
-      this.info = response.body;
+      
+      let self = this;
 
-    });
+      this.$http.get('https://noembed.com/embed?url=https://www.youtube.com/watch?v='+this.$route.params.id).then(response => {
 
-    this.$http.get('https://crossorigin.me/http://www.youtube.com/get_video_info?video_id='+this.$route.params.id+'&el=vevo&el=embedded&asv=3&sts=15902').then(response => {
+        this.info = response.body;
+
+      });
+
+      this.$http.get('https://crossorigin.me/http://www.youtube.com/get_video_info?video_id='+this.$route.params.id+'&el=vevo&el=embedded&asv=3&sts=15902').then(response => {
         let data = this.queryStringMap(response.body);
         if (typeof data['adaptive_fmts'] == 'string') {
           data['adaptive_fmts'] = this.listOfQueryStringMaps(data['adaptive_fmts']);
@@ -137,6 +144,16 @@ export default {
         console.log(self.audioUrl);
      
       });
+    }
+  },
+  mixins: [storage],
+
+  watch: {
+    '$route': 'loadSong'
+  },
+
+  created(){
+    this.loadSong();
   },
 
   beforeDestroy(){
@@ -307,6 +324,9 @@ export default {
     }
     i:hover{
       color: lighten($main, 20%);
+    }
+    a{ 
+      color: inherit;
     }
   }
   .progress{

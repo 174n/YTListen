@@ -19,3 +19,7 @@ $accent: #F54336;
   0% {}
   100%{margin-left: -300%;}
 }
+
+@keyframes spin {
+	100% {transform:rotate(360deg);}
+}

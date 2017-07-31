@@ -82,7 +82,9 @@ export default {
     },
 
     audioEnded: function(){
-      this.$router.push('/');
+      this.time = 0;
+      if(this.videoNext) this.$router.push('/play/'+this.videoNext+'/'+this.$route.params.playlist);
+      else this.$router.push('/');
     },
 
     queryStringMap: function(data) {
@@ -140,7 +142,7 @@ export default {
         self.player.onended = () => {
           self.audioEnded();
         }
-
+        self.playToggle();
         console.log(self.audioUrl);
      
       });
@@ -327,6 +329,9 @@ export default {
     }
     a{ 
       color: inherit;
+    }
+    .fa-refresh{
+      animation:spin 4s linear infinite;
     }
   }
   .progress{

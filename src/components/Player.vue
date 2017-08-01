@@ -117,13 +117,15 @@ export default {
       this.videoNext = videoId < videos.length-1 ? videos[videoId + 1] : false;
 
       
-      let self = this;
 
       this.$http.get('https://noembed.com/embed?url=https://www.youtube.com/watch?v='+this.$route.params.id).then(response => {
 
         this.info = response.body;
 
       });
+
+      
+      let self = this;
 
       this.$http.get('https://crossorigin.me/http://www.youtube.com/get_video_info?video_id='+this.$route.params.id+'&el=vevo&el=embedded&asv=3&sts=15902').then(response => {
         let data = this.queryStringMap(response.body);

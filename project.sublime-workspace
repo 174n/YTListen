@@ -71,7 +71,16 @@
 			"file": "src/App.vue",
 			"settings":
 			{
-				"buffer_size": 768,
+				"buffer_size": 995,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/components/Loading.vue",
+			"settings":
+			{
+				"buffer_size": 828,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -98,18 +107,9 @@
 			"file": "src/components/PlaylistCard.vue",
 			"settings":
 			{
-				"buffer_size": 1764,
+				"buffer_size": 1762,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/main.js",
-			"settings":
-			{
-				"buffer_size": 320,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
 			}
 		},
 		{
@@ -125,7 +125,7 @@
 			"file": "src/components/Player.vue",
 			"settings":
 			{
-				"buffer_size": 9329,
+				"buffer_size": 9337,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -316,10 +316,12 @@
 	[
 		"/home/ivan/YTListen",
 		"/home/ivan/YTListen/src",
-		"/home/ivan/YTListen/src/styles"
+		"/home/ivan/YTListen/src/components"
 	],
 	"file_history":
 	[
+		"/home/ivan/YTListen/src/event-bus.js",
+		"/home/ivan/YTListen/src/main.js",
 		"/home/ivan/YTListen/src/styles/settings.scss",
 		"/C/home/coding (projects)/github/YTListen/src/components/TopSection.vue",
 		"/C/home/coding (projects)/github/YTListen/webpack.config.js",
@@ -437,6 +439,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"before",
 			"contro",
 			"#cu",
 			"currentTime",
@@ -535,7 +538,7 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -544,15 +547,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 768,
+						"buffer_size": 995,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								69,
-								69
+								226,
+								226
 							]
 						],
 						"settings":
@@ -565,30 +568,30 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "src/components/Playlist.vue",
+					"file": "src/components/Loading.vue",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 940,
+						"buffer_size": 828,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								785,
-								785
+								249,
+								249
 							]
 						],
 						"settings":
 						{
+							"open_with_edit": true,
 							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
-							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -600,19 +603,19 @@
 				},
 				{
 					"buffer": 2,
-					"file": "src/components/SinglePlaylist.vue",
+					"file": "src/components/Playlist.vue",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2180,
+						"buffer_size": 940,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								210,
-								210
+								564,
+								564
 							]
 						],
 						"settings":
@@ -630,19 +633,49 @@
 				},
 				{
 					"buffer": 3,
-					"file": "src/components/PlaylistCard.vue",
+					"file": "src/components/SinglePlaylist.vue",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1764,
+						"buffer_size": 2180,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								69,
-								69
+								1190,
+								1190
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 210.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/components/PlaylistCard.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1762,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								930,
+								930
 							]
 						],
 						"settings":
@@ -655,35 +688,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/main.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 320,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								251,
-								251
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -721,15 +726,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9329,
+						"buffer_size": 9337,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8019,
-								8019
+								4686,
+								4686
 							]
 						],
 						"settings":
@@ -740,10 +745,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4116.0,
+						"translation.y": 1788.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -773,7 +778,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 6,
 					"type": "text"
 				}
 			]

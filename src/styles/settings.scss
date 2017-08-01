@@ -23,3 +23,12 @@ $accent: #F54336;
 @keyframes spin {
 	100% {transform:rotate(360deg);}
 }
+
+@keyframes scaleout {
+  100% {transform: scale(0);}
+  0% {transform: scale(1.0);opacity: 0;}
+}
+@keyframes rotate360 {
+  0%, 100% {transform: rotate(360deg);}
+  50% {transform: rotate(0deg);}
+}

@@ -1,19 +1,32 @@
 <template>
-  <transition name="fade">
-    <router-view></router-view>
-  </transition>
+  <div>
+    
+    <loading v-if="loading"></loading>
+
+    <transition name="fade">
+      <router-view></router-view>
+    </transition>
+  
+  </div>
 </template>
 
 <script>
-import Playlist from './components/Playlist.vue';
+import Loading from './components/Loading.vue';
+import { EventBus } from './event-bus.js';
 
 export default {
   components:{
-    'playlist': Playlist
+    'loading': Loading
   },
   data () {
     return {
+      loading: false
     }
+  },
+  created() {
+    EventBus.$on('loading', status => {
+      this.loading = status;
+    });
   }
 }
 </script>

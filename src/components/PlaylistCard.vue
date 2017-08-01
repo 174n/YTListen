@@ -30,9 +30,7 @@ export default {
   },
   created(){
     this.$http.get('https://noembed.com/embed?url=https://www.youtube.com/watch?v='+this.id).then(response => {
-
       this.card = response.body;
-
     });
   }
 }

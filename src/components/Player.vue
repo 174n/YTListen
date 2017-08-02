@@ -19,8 +19,11 @@
     <div class="progress">
         <input type="range" class="currentTime" @change="changeTime" v-model.number="time">
     </div>
+
     <div class="controls">
+
       <router-link class="backward" v-if="videoPrev" :to='"/play/"+videoPrev+"/"+this.$route.params.playlist'><i class="fa fa-backward" aria-hidden="true"></i></router-link>
+
       <div class="play" @click="playToggle">
         <i class="fa" :class="{
           'fa-play': audioUrl && player !== undefined && paused,
@@ -28,7 +31,9 @@
           'fa-refresh': !audioUrl
         }" aria-hidden="true"></i>
       </div>
+      
       <router-link class="forward" v-if="videoNext" :to='"/play/"+videoNext+"/"+this.$route.params.playlist'><i class="fa fa-forward" aria-hidden="true"></i></router-link>
+    
     </div>
   </div>
 </template>
@@ -63,7 +68,7 @@ export default {
 
     playToggle: function(){
       if(this.player !== undefined) {
-        if(this.player.paused) this.player.play()
+        if(this.player.paused) this.player.play().catch((e) => this.audioEnded());
           else this.player.pause();
         this.paused = this.player.paused;
       }
@@ -148,12 +153,16 @@ export default {
         console.log(self.audioUrl);
      
       });
+    },
+    routeChanged: function(){
+      this.player.src = "";
+      this.loadSong();
     }
   },
   mixins: [storage],
 
   watch: {
-    '$route': 'loadSong'
+    '$route': 'routeChanged'
   },
 
   created(){

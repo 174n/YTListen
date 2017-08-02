@@ -1,8 +1,8 @@
 <template>
   <div class="playlist">
     <div class="header">
-      <div class="title">{{ title }}</div>
-      <div class="subtitle">{{ subtitle }}</div>
+      <div class="title">{{ decode(title) }}</div>
+      <div class="subtitle">{{ decode(subtitle) }}</div>
     </div>
     <div class="cards" ref="cards">
       <playlist-card v-for="card in cards" :id="card" :playlistid="playlistid" :key="card"></playlist-card>
@@ -42,6 +42,13 @@ export default {
       if(this.$refs.cards !== undefined)
         return this.$refs.cards.scrollWidth> tthis.$refs.cards.scrollLeft + this.$refs.cards.getBoundingClientRect().width
       else return true;
+    }
+  },
+  methods:{
+    decode : function(str) {
+      return str.replace(/&#(\d+);/g, function(match, dec) {
+        return String.fromCharCode(dec);
+      });
     }
   },
   mounted() {

@@ -1,18 +1,22 @@
 <template>
-	<div>
-		<top-section icon="chevron-left" header="Settings" link="/"></top-section>
-		<div class="container">
-		  <div class="addPlaylist">
-		    <input type="text" v-model="playlistUrl">
-		    <button @click="addPlaylist">Add playlist</button>
-		  </div>
-		</div>
-	</div>
+  <div>
+    <top-section icon="chevron-left" header="Settings" link="/"></top-section>
+    <div class="container">
+      <div class="card">
+        <input type="text" v-model="playlistUrl">
+        <button @click="addPlaylist">Add playlist</button>
+      </div>
+      <div class="card">
+        <button @click="removePlaylists">Remove all playlists</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import TopSection from './TopSection.vue';
 import storage from '../mixins/storage';
+import { EventBus } from '../event-bus.js';
 
 export default {
   data () {
@@ -28,6 +32,7 @@ export default {
     addPlaylist: function() {
       let id = this.parsePlaylistUrl(this.playlistUrl);
 
+      EventBus.$emit("loading", true);
       // nope, I'm not gonna use API
       this.$http.get('https://crossorigin.me/https://www.youtube.com/playlist?list='+id).then(response => {
         let data = response.body;
@@ -48,6 +53,8 @@ export default {
 
         this.writePlaylist(title, description, ids);
         console.log(this.dbGet());
+        EventBus.$emit("loading", false);
+        this.$router.push('/');
       });
 
     },
@@ -59,6 +66,10 @@ export default {
     parsePlaylistUrl: function(url){
       let re = /(.*)youtube.com\/(.*)list=(.*?)(&(.*)|$)/g;
       return url.replace(re, "$3");
+    },
+    removePlaylists: function(){
+      this.dbClear();
+      this.$router.push('/');
     }
   },
   mixins: [storage]
@@ -73,7 +84,7 @@ export default {
   padding-top: 50px;
 }
 
-.addPlaylist{
+.card{
   padding: 15px;
   background-color: #fff;
   margin: 15px;

@@ -68,7 +68,7 @@ export default {
         this.writePlaylist(title, description, ids);
         EventBus.$emit("loading", false);
         this.reloadPlaylistsHere();
-      });
+      }, response => { console.log(response); });
 
     },
     writePlaylist: function(title, description, ids){

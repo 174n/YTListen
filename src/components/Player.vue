@@ -145,7 +145,7 @@ export default {
       let self = this;
 
       this.$http.get(this.$root.corsProxy+'http://www.youtube.com/get_video_info?video_id='+this.$route.params.id+'&el=vevo&el=embedded&asv=3&sts=15902').then(response => {
-        let data = this.queryStringMap(response.body);
+        let data = this.queryStringMap(response.bodyText);
         if (typeof data['adaptive_fmts'] == 'string') {
           data['adaptive_fmts'] = this.listOfQueryStringMaps(data['adaptive_fmts']);
         }

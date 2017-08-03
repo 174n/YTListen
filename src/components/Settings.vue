@@ -49,8 +49,8 @@ export default {
       EventBus.$emit("loading", true);
       // nope, I'm not gonna use API
       this.$http.get(this.$root.corsProxy+'https://www.youtube.com/playlist?list='+id).then(response => {
-        let data = response.body;
-
+        let data = response.bodyText;
+        
         let re = [
           /<meta name="title" content="(.*) - YouTube">/g,
           /<meta name="description" content="(.*)">/g

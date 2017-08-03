@@ -18,7 +18,8 @@ new Vue({
   data () {
     return {
       // corsProxy: "https://crossorigin.me/"
-      corsProxy: "https://cors-anywhere.herokuapp.com/"
+      // corsProxy: "https://cors-anywhere.herokuapp.com/"
+      corsProxy: "http://f.url.ph/cors/?"
     }
   }
 });

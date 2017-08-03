@@ -3,7 +3,7 @@
     <top-section icon="chevron-left" header="Settings" link="/"></top-section>
     <div class="container">
       <div class="card">
-        <input type="text" v-model="playlistUrl">
+        <input type="text" v-model="playlistUrl" placeholder="playlist URL...">
         <button @click="addPlaylist">Add playlist</button>
       </div>
       <div class="card">
@@ -34,7 +34,7 @@ import { EventBus } from '../event-bus.js';
 export default {
   data () {
     return {
-      playlistUrl: "https://www.youtube.com/watch?v=__QnYH4nPIo&list=PL6X1_iPMxYQtCvvA1m36i5FvE1KoJS98A&index=1",
+      playlistUrl: "",
       playlists: null
     }
   },

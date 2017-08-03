@@ -14,5 +14,11 @@ const router = new VueRouter({
 new Vue({
   el: '#app',
   render: h => h(App),
-  router: router
+  router: router,
+  data () {
+    return {
+      // corsProxy: "https://crossorigin.me/"
+      corsProxy: "https://cors-anywhere.herokuapp.com/"
+    }
+  }
 });

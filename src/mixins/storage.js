@@ -5,9 +5,6 @@ export default {
     }
   },
   methods: {
-    test: function() {
-      console.log("success");
-    },
     dbInit: function() {
       if(localStorage.getItem(this.dbVar) === null)
         this.dbSet({"playlists":[],"quality":15});

@@ -20,10 +20,6 @@ export default {
     'top-section': TopSection,
     'single-playlist': SinglePlaylist
   },
-  data () {
-    return {
-    }
-  },
   computed:{
     playlists: function(){
       return this.dbGet().playlists;

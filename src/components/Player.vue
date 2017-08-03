@@ -22,7 +22,7 @@
 
     <div class="controls">
 
-      <router-link class="backward" v-if="videoPrev" :to='"/play/"+videoPrev+"/"+this.$route.params.playlist'><i class="fa fa-backward" aria-hidden="true"></i></router-link>
+      <a @click="prevTrack"><i class="fa fa-backward" aria-hidden="true"></i></a>
 
       <div class="play" @click="playToggle">
         <i class="fa" :class="{
@@ -32,7 +32,7 @@
         }" aria-hidden="true"></i>
       </div>
       
-      <router-link class="forward" v-if="videoNext" :to='"/play/"+videoNext+"/"+this.$route.params.playlist'><i class="fa fa-forward" aria-hidden="true"></i></router-link>
+      <a @click="nextTrack"><i class="fa fa-forward" aria-hidden="true"></i></a>
     
     </div>
   </div>
@@ -73,6 +73,18 @@ export default {
         this.paused = this.player.paused;
       }
     },
+
+    nextTrack: function(){
+      if(this.videoNext) this.$router.push("/play/"+this.videoNext+"/"+this.$route.params.playlist);
+    },
+
+    prevTrack: function(){
+      if(this.videoPrev) this.$router.push("/play/"+this.videoPrev+"/"+this.$route.params.playlist);
+    },
+
+    // preventTrackSwitch: function(e){
+    //   e.preventDefault();
+    // },
 
     changeVolume: function(){
       if(this.player !== undefined) {
@@ -132,7 +144,7 @@ export default {
       
       let self = this;
 
-      this.$http.get('https://crossorigin.me/http://www.youtube.com/get_video_info?video_id='+this.$route.params.id+'&el=vevo&el=embedded&asv=3&sts=15902').then(response => {
+      this.$http.get(this.$root.corsProxy+'http://www.youtube.com/get_video_info?video_id='+this.$route.params.id+'&el=vevo&el=embedded&asv=3&sts=15902').then(response => {
         let data = this.queryStringMap(response.body);
         if (typeof data['adaptive_fmts'] == 'string') {
           data['adaptive_fmts'] = this.listOfQueryStringMaps(data['adaptive_fmts']);
@@ -150,12 +162,12 @@ export default {
           self.audioEnded();
         }
         self.playToggle();
-        console.log(self.audioUrl);
+        // console.log(self.audioUrl);
      
       });
     },
     routeChanged: function(){
-      this.player.src = "";
+      if(this.player) this.player.src = "";
       this.loadSong();
     }
   },
@@ -170,7 +182,7 @@ export default {
   },
 
   beforeDestroy(){
-    this.player.src = "";
+    if(this.player) this.player.src = "";  
   }
 }
 </script>

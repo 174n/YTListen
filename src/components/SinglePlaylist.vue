@@ -38,7 +38,6 @@ export default {
   },
   computed:{
     rightArrow() {
-      console.log();
       if(this.$refs.cards !== undefined)
         return this.$refs.cards.scrollWidth> tthis.$refs.cards.scrollLeft + this.$refs.cards.getBoundingClientRect().width
       else return true;

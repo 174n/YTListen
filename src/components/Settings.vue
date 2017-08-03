@@ -7,7 +7,20 @@
         <button @click="addPlaylist">Add playlist</button>
       </div>
       <div class="card">
-        <button @click="removePlaylists">Remove all playlists</button>
+        <div class="playlists" v-for="(playlist, index) in playlists">
+          <div class="playlist">
+            <div class="title">{{playlist.title}}</div>
+            <div class="options">
+              <div class="remove" @click="removePlaylist(index)">
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="butons">
+          <button @click="sortPlaylists">Sort playlists</button>
+          <button @click="removePlaylists">Remove all playlists</button>
+        </div>
       </div>
     </div>
   </div>
@@ -21,7 +34,8 @@ import { EventBus } from '../event-bus.js';
 export default {
   data () {
     return {
-      playlistUrl: "https://www.youtube.com/watch?v=__QnYH4nPIo&list=PL6X1_iPMxYQtCvvA1m36i5FvE1KoJS98A&index=1"
+      playlistUrl: "https://www.youtube.com/watch?v=__QnYH4nPIo&list=PL6X1_iPMxYQtCvvA1m36i5FvE1KoJS98A&index=1",
+      playlists: null
     }
   },
   components: {
@@ -34,7 +48,7 @@ export default {
 
       EventBus.$emit("loading", true);
       // nope, I'm not gonna use API
-      this.$http.get('https://crossorigin.me/https://www.youtube.com/playlist?list='+id).then(response => {
+      this.$http.get(this.$root.corsProxy+'https://www.youtube.com/playlist?list='+id).then(response => {
         let data = response.body;
 
         let re = [
@@ -52,9 +66,8 @@ export default {
         }
 
         this.writePlaylist(title, description, ids);
-        console.log(this.dbGet());
         EventBus.$emit("loading", false);
-        this.$router.push('/');
+        this.reloadPlaylistsHere();
       });
 
     },
@@ -69,8 +82,32 @@ export default {
     },
     removePlaylists: function(){
       this.dbClear();
-      this.$router.push('/');
+      this.reloadPlaylistsHere();
+    },
+
+    sortPlaylists: function(){
+      let db = this.dbGet();
+      db.playlists.sort(function(a, b) {
+          var textA = a.title.toUpperCase();
+          var textB = b.title.toUpperCase();
+          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+      });
+      this.dbSet(db);
+      this.reloadPlaylistsHere();
+    },
+
+    removePlaylist: function(index){
+      let db = this.dbGet();
+      db.playlists.splice(index, 1)
+      this.dbSet(db);
+      this.reloadPlaylistsHere();
+    },
+    reloadPlaylistsHere: function(){
+      this.playlists = this.dbGet().playlists;
     }
+  },
+  created(){
+    this.reloadPlaylistsHere();
   },
   mixins: [storage]
 
@@ -102,6 +139,8 @@ export default {
     margin: 5px;
   }
   button{
+    margin-bottom: 10px;
+    display: block;
     background-color: $accent;
     color: $back;
     padding: 10px 15px;
@@ -112,5 +151,33 @@ export default {
       background-color: lighten($accent, 5%);
     }
   }
+
+  .playlists{
+    margin: 10px;
+    color: $back;
+    margin-bottom: 15px;
+
+    .playlist{
+      display: flex;
+      align-items: center;
+
+      .title{
+        flex-grow: 1;
+        font-weight: 300;
+      }
+
+      .options{
+        .remove{
+          padding: 10px;
+          cursor: pointer;
+          &:hover{
+            background-color: $accent;
+          }
+        }
+      }
+    }
+
+  }
+
 }
 </style>

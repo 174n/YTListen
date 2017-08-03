@@ -4,7 +4,7 @@
   "theme_color": "#F54336",
   "background_color": "#fff",
   "display": "standalone",
-  "start_url": "/",
+  "start_url": "/YTListen",
   "icons": [
     {
       "src": "assets/images/icons/icon-72x72.png",

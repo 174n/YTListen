@@ -68,7 +68,7 @@ export default {
 
     playToggle: function(){
       if(this.player !== undefined) {
-        if(this.player.paused) this.player.play().catch((e) => this.audioEnded());
+        if(this.player.paused) this.player.play().then(() => {}).catch((e) => this.audioEnded());
           else this.player.pause();
         this.paused = this.player.paused;
       }

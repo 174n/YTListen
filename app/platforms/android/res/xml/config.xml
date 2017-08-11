@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="online.alexandrov.ytlisten" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <feature name="IntentPlugin">
+        <param name="android-package" value="com.napolitano.cordova.plugin.intent.IntentPlugin" />
+    </feature>
+    <name>YTListen</name>
+    <description>
+        An App for listening to youtube videos
+    </description>
+    <author email="rundik@ro.ru" href="http://aleandrov.online">
+        Ivan Alexandrov
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <preference name="loglevel" value="DEBUG" />
+</widget>

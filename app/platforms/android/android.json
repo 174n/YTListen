@@ -1,0 +1,39 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "res/xml/config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"IntentPlugin\"><param name=\"android-package\" value=\"com.napolitano.cordova.plugin.intent.IntentPlugin\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "com.napolitano.cordova.plugin.intent": {
+            "PACKAGE_NAME": "online.alexandrov.ytlisten"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [
+        {
+            "id": "com.napolitano.cordova.plugin.intent.IntentPlugin",
+            "file": "plugins/com.napolitano.cordova.plugin.intent/www/android/IntentPlugin.js",
+            "pluginId": "com.napolitano.cordova.plugin.intent",
+            "clobbers": [
+                "IntentPlugin"
+            ]
+        }
+    ],
+    "plugin_metadata": {
+        "com.napolitano.cordova.plugin.intent": "0.1.3"
+    }
+}

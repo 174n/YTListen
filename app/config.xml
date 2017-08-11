@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="online.alexandrov.ytlisten" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>YTListen</name>
+    <description>
+        An App for listening to youtube videos
+    </description>
+    <author email="rundik@ro.ru" href="http://aleandrov.online">
+        Ivan Alexandrov
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <plugin name="com.napolitano.cordova.plugin.intent" spec="https://github.com/napolitano/cordova-plugin-intent" />
+</widget>

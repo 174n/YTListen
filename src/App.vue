@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+    <div>{{output}}</div>
     <loading v-if="loading"></loading>
 
     <transition name="fade">
@@ -20,12 +20,17 @@ export default {
   },
   data () {
     return {
-      loading: false
+      loading: false,
+      output: ""
     }
   },
   created() {
     EventBus.$on('loading', status => {
       this.loading = status;
+    });
+    self = this;
+    window.plugins.intent.getCordovaIntent(function (Intent) {
+        self.output = Intent;
     });
   }
 }

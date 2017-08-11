@@ -1,0 +1,15 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "com.napolitano.cordova.plugin.intent": {
+            "PACKAGE_NAME": "online.alexandrov.ytlisten"
+        }
+    },
+    "dependent_plugins": {}
+}
